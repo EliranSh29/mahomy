@@ -1,26 +1,23 @@
 package com.example.mahomy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-
-import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class gameSeqActivity extends AppCompatActivity {
 
     private Button[][] buttons = new Button[3][3];
     private Button targetButton;
     private long startTime;
-
-
+    private int level = 1;
+    private int buttonsToRemember = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeButtons();
-        startColorChange();
-
+        startGame();
     }
 
     private void initializeButtons() {
@@ -48,31 +44,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startColorChange() {
+    private void startGame() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playSequence();
+            }
+        }, 1000); // Start after 1 second
+    }
+
+    private void playSequence() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Random random = new Random();
-                int row = random.nextInt(3);
-                int col = random.nextInt(3);
-                targetButton = buttons[row][col];
-                targetButton.setBackgroundColor(Color.RED);
+                for (int i = 0; i < buttonsToRemember; i++) {
+                    int row = random.nextInt(3);
+                    int col = random.nextInt(3);
+                    Button button = buttons[row][col];
+                    button.setBackgroundColor(Color.RED);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            button.setBackgroundColor(Color.WHITE);
+                        }
+                    }, 500); // Change color back to white after 0.5 seconds
+                }
                 startTime = System.currentTimeMillis();
             }
-        }, 3000); // Change color every 3 seconds
+        }, 1000); // Delay before playing sequence
     }
-
-
 
     private void onButtonClick(Button button) {
         if (button == targetButton) {
             long reactionTime = System.currentTimeMillis() - startTime;
             Toast.makeText(this, "Reaction time: " + reactionTime + " milliseconds", Toast.LENGTH_SHORT).show();
             button.setBackgroundColor(Color.BLUE);
-            startColorChange(); // Start next color change
+            if (buttonsToRemember < 9) {
+                buttonsToRemember++;
+                level++;
+                startGame();
+            } else {
+                Toast.makeText(this, "Congratulations! You completed all levels!", Toast.LENGTH_SHORT).show();
+            }
         } else {
             // Wrong button pressed, handle accordingly
         }
     }
-
 }
