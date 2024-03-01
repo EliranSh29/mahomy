@@ -71,8 +71,8 @@
 
         <Button
             android:id="@+id/button_20"
-            android:layout_width="78dp"
-            android:layout_height="447dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="fill"
             android:text="Button"
             android:textColor="@android:color/black"
@@ -90,8 +90,8 @@
 
         <Button
             android:id="@+id/button_22"
-            android:layout_width="186dp"
-            android:layout_height="735dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="fill"
             android:text="Button"
             android:textColor="@android:color/black"
