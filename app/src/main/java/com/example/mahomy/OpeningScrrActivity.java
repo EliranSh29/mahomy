@@ -12,16 +12,19 @@ import com.example.mahomy.gameSeqActivity;
 
 public class OpeningScrrActivity extends AppCompatActivity {
 
+    Button m_buttonGame1;
+    Button m_buttonGame2;
+    Button m_buttonGame3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening_scrr);
+        m_buttonGame1 = findViewById(R.id.button_game1);
+        m_buttonGame2 = findViewById(R.id.button_game2);
+        m_buttonGame3 = findViewById(R.id.button_game3);
 
-        Button buttonGame1 = findViewById(R.id.button_game1);
-        Button buttonGame2 = findViewById(R.id.button_game2);
-        Button buttonGame3 = findViewById(R.id.button_game3);
-
-        buttonGame1.setOnClickListener(new View.OnClickListener() {
+        m_buttonGame1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Start the first mini game activity
@@ -30,7 +33,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
             }
         });
 
-        buttonGame2.setOnClickListener(new View.OnClickListener() {
+        m_buttonGame2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Start the second mini game activity
@@ -39,7 +42,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
             }
         });
 
-      //  buttonGame3.setOnClickListener(new View.OnClickListener() {
+      //  m_buttonGame3.setOnClickListener(new View.OnClickListener() {
          //   @Override
          //   public void onClick(View v) {
                 // Start the third mini game activity (for future use)

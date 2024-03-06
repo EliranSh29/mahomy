@@ -3,6 +3,7 @@ package com.example.mahomy;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,10 +20,11 @@ public class gameSeqActivity extends AppCompatActivity {
     private int level = 1;
     private int buttonsToRemember = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game_seq);//////!!!!!!!!
 
         initializeButtons();
         startGame();
@@ -37,6 +39,7 @@ public class gameSeqActivity extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("XXXX", "gameDecActivity::initializeButtons::onCLick");
                         onButtonClick((Button) v);
                     }
                 });
