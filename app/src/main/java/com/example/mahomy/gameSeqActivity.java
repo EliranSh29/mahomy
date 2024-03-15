@@ -50,6 +50,9 @@ public class gameSeqActivity extends AppCompatActivity {
     }
 
     private void startGame() {
+        // Cancel any pending callbacks to prevent accumulation of delayed actions
+        new Handler().removeCallbacksAndMessages(null);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -57,6 +60,7 @@ public class gameSeqActivity extends AppCompatActivity {
             }
         }, 1000); // Start after 1 second
     }
+
 
     private void playSequence() {
         playSequenceStep(0);
