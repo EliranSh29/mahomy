@@ -21,7 +21,6 @@
         android:id="@+id/button_game3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game 3"
-        android:visibility="gone" /> <!-- Hide for now, since it's for future use -->
+        android:text="Game 3" />
 
 </LinearLayout>

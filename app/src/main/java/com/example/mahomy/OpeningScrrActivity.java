@@ -38,6 +38,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the second mini game activity
                 Intent intent = new Intent(OpeningScrrActivity.this, gameSeqActivity.class);
+
                 startActivity(intent);
             }
         });

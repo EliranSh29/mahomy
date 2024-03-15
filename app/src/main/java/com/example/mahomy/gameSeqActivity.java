@@ -18,13 +18,16 @@ public class gameSeqActivity extends AppCompatActivity {
     private Button targetButton;
     private long startTime;
     private int level = 1;
+
     private int buttonsToRemember = 1;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_seq);//////!!!!!!!!
+        setContentView(R.layout.activity_game_seq);
+
 
         initializeButtons();
         startGame();
@@ -39,7 +42,6 @@ public class gameSeqActivity extends AppCompatActivity {
                 buttons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("XXXX", "gameDecActivity::initializeButtons::onCLick");
                         onButtonClick((Button) v);
                     }
                 });
@@ -57,32 +59,42 @@ public class gameSeqActivity extends AppCompatActivity {
     }
 
     private void playSequence() {
+        playSequenceStep(0);
+    }
+
+    private void playSequenceStep(final int step) {
+        if (step >= buttonsToRemember) {
+            startTime = System.currentTimeMillis();
+            return;
+        }
+
+        Random random = new Random();
+        int row = random.nextInt(3);
+        int col = random.nextInt(3);
+
+        targetButton = buttons[row][col];
+
+        targetButton.setBackgroundColor(Color.RED);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Random random = new Random();
-                for (int i = 0; i < buttonsToRemember; i++) {
-                    int row = random.nextInt(3);
-                    int col = random.nextInt(3);
-                    Button button = buttons[row][col];
-                    button.setBackgroundColor(Color.RED);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            button.setBackgroundColor(Color.WHITE);
-                        }
-                    }, 500); // Change color back to white after 0.5 seconds
-                }
-                startTime = System.currentTimeMillis();
+                targetButton.setBackgroundColor(Color.BLUE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        playSequenceStep(step + 1);
+                    }
+                }, 500); // Change color back to blue after 0.5 seconds
             }
-        }, 1000); // Delay before playing sequence
+        }, 1000); // Change color to red after 1 second
     }
 
+
     private void onButtonClick(Button button) {
-        if (button == targetButton) {
-            long reactionTime = System.currentTimeMillis() - startTime;
-            Toast.makeText(this, "Reaction time: " + reactionTime + " milliseconds", Toast.LENGTH_SHORT).show();
-            button.setBackgroundColor(Color.BLUE);
+        if (button==targetButton)
+        {
+
+            targetButton.setBackgroundColor(Color.BLUE);
             if (buttonsToRemember < 9) {
                 buttonsToRemember++;
                 level++;

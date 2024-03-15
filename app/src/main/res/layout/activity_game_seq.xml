@@ -21,7 +21,8 @@
             android:text="Button"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_01"
@@ -30,7 +31,8 @@
             android:text="Button"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_02"
@@ -39,7 +41,8 @@
             android:text="Button"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_10"
@@ -48,7 +51,8 @@
             android:text="Button"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_11"
@@ -58,7 +62,8 @@
 
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_12"
@@ -67,7 +72,8 @@
             android:text="Button"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_20"
@@ -76,7 +82,8 @@
             android:layout_gravity="fill"
             android:text="Button"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_21"
@@ -86,7 +93,8 @@
 
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:layout_gravity="fill"/>
+            android:layout_gravity="fill"
+            android:onClick="onButtonClick"/>
 
         <Button
             android:id="@+id/button_22"
@@ -95,7 +103,8 @@
             android:layout_gravity="fill"
             android:text="Button"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:onClick="onButtonClick"/>
 
     </GridLayout>
 
