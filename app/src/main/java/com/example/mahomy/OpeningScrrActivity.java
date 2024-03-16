@@ -43,13 +43,13 @@ public class OpeningScrrActivity extends AppCompatActivity {
             }
         });
 
-      //  m_buttonGame3.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-         //   public void onClick(View v) {
+        m_buttonGame3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 // Start the third mini game activity (for future use)
-              //  Intent intent = new Intent(OpeningScrrActivity.this, MiniGame3Activity.class);
-             //   startActivity(intent);
-           // }
-       // });
+                Intent intent = new Intent(OpeningScrrActivity.this, NumberMemory.class);
+                startActivity(intent);
+            }
+        });
     }
 }
