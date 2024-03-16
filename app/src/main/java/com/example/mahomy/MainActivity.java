@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
                         onButtonClick((Button) v);
                     }
                 });
+                buttons[i][j].setBackgroundColor(Color.BLUE); // Set background color to blue
             }
         }
     }
+
 
     private void startColorChange() {
         new Handler().postDelayed(new Runnable() {

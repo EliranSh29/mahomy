@@ -44,9 +44,11 @@ public class gameSeqActivity extends AppCompatActivity {
                         onButtonClick((Button) v);
                     }
                 });
+                buttons[i][j].setBackgroundColor(Color.BLUE); // Set background color to blue
             }
         }
     }
+
 
     private void startGame() {
         // Cancel any pending callbacks to prevent accumulation of delayed actions
@@ -58,13 +60,28 @@ public class gameSeqActivity extends AppCompatActivity {
     }
 
     private void generateSequence() {
+        Random random = new Random();
+        int previousRow = -1;
+        int previousCol = -1;
+
         for (int i = 0; i < buttonsToRemember; i++) {
-            Random random = new Random();
-            int row = random.nextInt(3);
-            int col = random.nextInt(3);
+            int row, col;
+
+            // Generate random row and column until it's different from the previous one
+            do {
+                row = random.nextInt(3);
+                col = random.nextInt(3);
+            } while (row == previousRow && col == previousCol);
+
+            // Store the current row and column as the previous ones for the next iteration
+            previousRow = row;
+            previousCol = col;
+
+            // Add the button to the sequence
             sequence.add(buttons[row][col]);
         }
     }
+
 
     private void playSequence() {
         new Handler().postDelayed(new Runnable() {
@@ -97,19 +114,17 @@ public class gameSeqActivity extends AppCompatActivity {
         if (button == sequence.get(sequenceIndex)) {
             sequenceIndex++;
             if (sequenceIndex == buttonsToRemember) {
-                if (buttonsToRemember < 9) {
-                    buttonsToRemember++;
-                    sequenceIndex = 0;
-                    startGame();
-                } else {
-                    Toast.makeText(this, "Congratulations! You completed all levels!", Toast.LENGTH_SHORT).show();
-                }
+                buttonsToRemember++;
+                sequenceIndex = 0;
+                startGame();
             }
         } else {
             // Wrong button pressed, handle accordingly
-            // For simplicity, you can restart the game when the wrong button is pressed
+            // For simplicity, restart the game when the wrong button is pressed
             Toast.makeText(this, "Wrong button pressed! Try again.", Toast.LENGTH_SHORT).show();
+            buttonsToRemember = 1; // Reset to level 1
             startGame();
         }
     }
+
 }
