@@ -40,7 +40,7 @@ public class CustomButton extends androidx.appcompat.widget.AppCompatButton {
     }
 
     // Method to initialize buttons
-    public static void initializeButtons(CustomButton[][] buttons, final View.OnClickListener listener) {
+    public static void initializeButtons4(CustomButton[][] buttons, final View.OnClickListener listener) {
         for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons[i].length; j++) {
                 final CustomButton button = buttons[i][j];
