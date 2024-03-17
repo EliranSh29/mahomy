@@ -28,7 +28,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the first mini game activity
-                Intent intent = new Intent(OpeningScrrActivity.this, MainActivity.class);
+                Intent intent = new Intent(OpeningScrrActivity.this, InsGame1.class);
                 startActivity(intent);
             }
         });
