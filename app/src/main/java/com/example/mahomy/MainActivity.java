@@ -27,10 +27,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         initializeButtons();
         startColorChange();
 
     }
+
+
+
 
     private void initializeButtons() {
         for (int i = 0; i < 3; i++) {
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 3000); // Change color every 3 seconds
     }
+
 
 
 
