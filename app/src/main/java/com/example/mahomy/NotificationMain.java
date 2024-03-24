@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +23,7 @@ public class NotificationMain extends AppCompatActivity {
 
     private void scheduleNotification(Context context, String title, String message) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
+        Log.d("xxx", "scheduleNotification");
         Intent notificationIntent = new Intent(context, NotificationReceiver.class);
         notificationIntent.putExtra("title", title);
         notificationIntent.putExtra("message", message);
