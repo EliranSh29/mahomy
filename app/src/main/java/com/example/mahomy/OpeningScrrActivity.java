@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mahomy.MainActivity;
 import com.example.mahomy.gameSeqActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class OpeningScrrActivity extends AppCompatActivity {
 
@@ -20,6 +22,16 @@ public class OpeningScrrActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening_scrr);
+
+
+        //write a message to the DB
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("My name is patrick");
+
+
+
         m_buttonGame1 = findViewById(R.id.button_game1);
         m_buttonGame2 = findViewById(R.id.button_game2);
         m_buttonGame3 = findViewById(R.id.button_game3);
