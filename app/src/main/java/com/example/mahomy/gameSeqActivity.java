@@ -128,6 +128,31 @@ public class gameSeqActivity extends AppCompatActivity {
             buttonsToRemember = 1; // Reset to level 1
             startGame();
         }
+
+        // Check if the current level is the highest reached and upload it to Firebase
+        if (buttonsToRemember > level) {
+            level = buttonsToRemember;
+            uploadHighestLevelToFirebase(level);
+        }
+    }
+
+    private void uploadHighestLevelToFirebase(int highestLevel) {
+        // Get the current highest level from Firebase
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer currentHighestLevel = dataSnapshot.getValue(Integer.class);
+                if (currentHighestLevel == null || highestLevel > currentHighestLevel) {
+                    // If no data exists or if the new level is higher, update the highest level
+                    databaseReference.setValue(highestLevel);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
     }
 
     @Override
