@@ -8,6 +8,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Random;
 
 public class NumberMemory extends AppCompatActivity {
@@ -19,11 +26,15 @@ public class NumberMemory extends AppCompatActivity {
 
     private int currentLevel = 1;
     private int numberToRemember;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_number_memory);
+
+        // Initialize Firebase Database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("userId").child("game3");
 
         numberTextView = findViewById(R.id.numberTextView);
         userInputEditText = findViewById(R.id.userInputEditText);
@@ -93,7 +104,28 @@ public class NumberMemory extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please enter a number.", Toast.LENGTH_SHORT).show();
         }
+        // Upload the current level to Firebase
+        uploadLevelToFirebase(currentLevel);
         // Restart the game
         startGame();
+    }
+
+    private void uploadLevelToFirebase(int level) {
+        // Get the current highest level from Firebase
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer currentHighestLevel = dataSnapshot.getValue(Integer.class);
+                if (currentHighestLevel == null || level > currentHighestLevel) {
+                    // If no data exists or if the new level is higher, update the highest level
+                    databaseReference.setValue(level);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
     }
 }

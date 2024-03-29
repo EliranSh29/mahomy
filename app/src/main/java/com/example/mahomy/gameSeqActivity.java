@@ -1,15 +1,17 @@
 package com.example.mahomy;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,11 +24,15 @@ public class gameSeqActivity extends AppCompatActivity {
     private long startTime;
     private int level = 1;
     private int buttonsToRemember = 1;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_seq);
+
+        // Initialize Firebase Database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("userId").child("game2");
 
         initializeButtons();
         startGame();
@@ -48,7 +54,6 @@ public class gameSeqActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void startGame() {
         // Cancel any pending callbacks to prevent accumulation of delayed actions
@@ -82,7 +87,6 @@ public class gameSeqActivity extends AppCompatActivity {
         }
     }
 
-
     private void playSequence() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -109,7 +113,6 @@ public class gameSeqActivity extends AppCompatActivity {
         }
     }
 
-
     private void onButtonClick(Button button) {
         if (button == sequence.get(sequenceIndex)) {
             sequenceIndex++;
@@ -127,4 +130,17 @@ public class gameSeqActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Remove all pending callbacks to prevent memory leaks
+        new Handler().removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Remove all pending callbacks to prevent memory leaks
+        new Handler().removeCallbacksAndMessages(null);
+    }
 }

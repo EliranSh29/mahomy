@@ -83,6 +83,8 @@ public class OpeningScrrActivity extends AppCompatActivity {
     }
 
     private void scheduleNotification() {
+
+        
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, NotificationReceiver.class);
         notificationIntent.putExtra("notification_id", 1);
