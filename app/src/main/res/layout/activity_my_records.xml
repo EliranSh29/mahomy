@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MyRecordsActivity">
+
+    <TextView
+        android:id="@+id/reactionTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reaction Time:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/reactionTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reactionTimeLabel"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/highestLevelGame2Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Highest Level (Game 2):"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/reactionTimeTextView"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/highestLevelGame2TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/highestLevelGame2Label"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/levelGame3Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Level (Game 3):"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/highestLevelGame2TextView"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/levelGame3TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/levelGame3Label"
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout>

@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -22,15 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private CountDownTimer colorChangeTimer;
     private CountDownTimer delayTimer;
     private boolean isSameButton = false;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("userId").child("game1");
 
         initializeButtons();
         startFirstColorChange();
@@ -124,21 +123,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadReactionTimeToFirebase(long reactionTime) {
-        // Get the current lowest reaction time from Firebase
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Long currentLowestTime = dataSnapshot.getValue(Long.class);
-                if (currentLowestTime == null || reactionTime < currentLowestTime) {
-                    // If no data exists or if the new time is lower, update the lowest time
-                    databaseReference.setValue(reactionTime);
-                }
-            }
+        // Get the current user's ID
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Reference to the user's node
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle error
-            }
-        });
+        // Update the reaction time for game1
+        userRef.child("reaction_time").setValue(reactionTime);
     }
+
 }

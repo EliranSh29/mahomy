@@ -24,6 +24,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
     Button m_buttonGame1;
     Button m_buttonGame2;
     Button m_buttonGame3;
+    Button m_myRecordsButton; // Added My Records button reference
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
         m_buttonGame1 = findViewById(R.id.button_game1);
         m_buttonGame2 = findViewById(R.id.button_game2);
         m_buttonGame3 = findViewById(R.id.button_game3);
+        m_myRecordsButton = findViewById(R.id.myRecordsButton); // Initialize My Records button
 
         m_buttonGame1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +70,15 @@ public class OpeningScrrActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        m_myRecordsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start MyRecordsActivity
+                Intent intent = new Intent(OpeningScrrActivity.this, MyRecordsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void createNotificationChannel() {
@@ -84,7 +95,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
 
     private void scheduleNotification() {
 
-        
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, NotificationReceiver.class);
         notificationIntent.putExtra("notification_id", 1);

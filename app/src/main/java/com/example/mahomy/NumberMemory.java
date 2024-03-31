@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,15 +27,12 @@ public class NumberMemory extends AppCompatActivity {
 
     private int currentLevel = 1;
     private int numberToRemember;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_number_memory);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("userId").child("game3");
 
         numberTextView = findViewById(R.id.numberTextView);
         userInputEditText = findViewById(R.id.userInputEditText);
@@ -111,21 +109,13 @@ public class NumberMemory extends AppCompatActivity {
     }
 
     private void uploadLevelToFirebase(int level) {
-        // Get the current highest level from Firebase
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer currentHighestLevel = dataSnapshot.getValue(Integer.class);
-                if (currentHighestLevel == null || level > currentHighestLevel) {
-                    // If no data exists or if the new level is higher, update the highest level
-                    databaseReference.setValue(level);
-                }
-            }
+        // Get the current user's ID
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Reference to the user's node
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle error
-            }
-        });
+        // Update the current level for game3
+        userRef.child("level_game3").setValue(level);
     }
+
 }

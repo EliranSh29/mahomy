@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -24,15 +26,13 @@ public class gameSeqActivity extends AppCompatActivity {
     private long startTime;
     private int level = 1;
     private int buttonsToRemember = 1;
-    private DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_seq);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("userId").child("game2");
 
         initializeButtons();
         startGame();
@@ -137,23 +137,15 @@ public class gameSeqActivity extends AppCompatActivity {
     }
 
     private void uploadHighestLevelToFirebase(int highestLevel) {
-        // Get the current highest level from Firebase
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer currentHighestLevel = dataSnapshot.getValue(Integer.class);
-                if (currentHighestLevel == null || highestLevel > currentHighestLevel) {
-                    // If no data exists or if the new level is higher, update the highest level
-                    databaseReference.setValue(highestLevel);
-                }
-            }
+        // Get the current user's ID
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Reference to the user's node
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle error
-            }
-        });
+        // Update the highest level for game2
+        userRef.child("highest_level_game2").setValue(highestLevel);
     }
+
 
     @Override
     protected void onDestroy() {
