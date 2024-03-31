@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.Random;
 
 public class NumberMemory extends AppCompatActivity {
@@ -56,6 +55,7 @@ public class NumberMemory extends AppCompatActivity {
         });
     }
 
+    // Method to start the number memory game
     private void startGame() {
         startButton.setEnabled(false);
         userInputEditText.setVisibility(View.GONE); // Hide the EditText initially
@@ -65,6 +65,7 @@ public class NumberMemory extends AppCompatActivity {
         showNumber();
     }
 
+    // Method to generate a random number to remember
     private void generateNumber() {
         Random random = new Random();
         int minRange = (int) Math.pow(10, currentLevel - 1); // Minimum range based on current level
@@ -72,6 +73,7 @@ public class NumberMemory extends AppCompatActivity {
         numberToRemember = random.nextInt(maxRange - minRange + 1) + minRange; // Generates a random number in the specified range
     }
 
+    // Method to show the number to remember
     private void showNumber() {
         numberTextView.setVisibility(View.VISIBLE);
         numberTextView.setText(String.valueOf(numberToRemember));
@@ -90,6 +92,7 @@ public class NumberMemory extends AppCompatActivity {
         }, 6000); // Display number for 6 seconds
     }
 
+    // Method to check user input and proceed to the next level or restart the game
     private void checkUserInput() {
         String userInput = userInputEditText.getText().toString().trim();
         if (!userInput.isEmpty()) {
@@ -110,6 +113,7 @@ public class NumberMemory extends AppCompatActivity {
         startGame();
     }
 
+    // Method to upload the current level to Firebase database
     private void uploadLevelToFirebase(int level) {
         // Get the current user's ID
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -140,5 +144,4 @@ public class NumberMemory extends AppCompatActivity {
             }
         });
     }
-
 }
