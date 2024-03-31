@@ -18,6 +18,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Array to hold buttons in the grid
     private Button[][] buttons = new Button[3][3];
     private Button targetButton;
     private long startTime;
@@ -30,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        initializeButtons();
-        startFirstColorChange();
+        initializeButtons(); // Initialize grid buttons
+        startFirstColorChange(); // Start the color change sequence
     }
 
+    // Method to initialize grid buttons
     private void initializeButtons() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Method to start the first color change
     private void startFirstColorChange() {
         delayTimer = new CountDownTimer(1500, 1000) {
             @Override
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         delayTimer.start(); // Start the first color change after 1.5 seconds
     }
 
+    // Method to start the continuous color change sequence
     private void startColorChange() {
         colorChangeTimer = new CountDownTimer(Long.MAX_VALUE, 3000) {
             @Override
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         colorChangeTimer.start();
     }
 
+    // Method to change the color of a random button
     private void changeColor() {
         Random random = new Random();
         int row, col;
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         startTime = System.currentTimeMillis();
     }
 
+    // Method called when a button in the grid is clicked
     private void onButtonClick(Button button) {
         if (button == targetButton) {
             colorChangeTimer.cancel(); // Stop the color change timer
@@ -122,14 +127,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Method to upload reaction time to Firebase
     private void uploadReactionTimeToFirebase(long reactionTime) {
         // Get the current user's ID
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // Reference to the user's node
+        // Reference to the user's node in Firebase
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-        // Update the reaction time for game1
-        userRef.child("reaction_time").setValue(reactionTime);
+        // Retrieve the user's current reaction time for game 1 from the database
+        userRef.child("reaction_time").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Get the current reaction time for game 1 from the database
+                    Long currentReactionTime = dataSnapshot.getValue(Long.class);
+                    // Check if the current reaction time is lower than the reaction time in the database
+                    if (currentReactionTime == null || reactionTime < currentReactionTime) {
+                        // If so, update the reaction time for game 1 in the database
+                        userRef.child("reaction_time").setValue(reactionTime);
+                    }
+                } else {
+                    // If no data exists, simply set the current reaction time as the reaction time for game 1
+                    userRef.child("reaction_time").setValue(reactionTime);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
     }
 
 }

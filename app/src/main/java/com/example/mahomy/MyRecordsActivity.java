@@ -1,9 +1,10 @@
+// MyRecordsActivity.java
+
 package com.example.mahomy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,14 +25,18 @@ public class MyRecordsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_records);
 
+        // Initialize TextViews
         reactionTimeTextView = findViewById(R.id.reactionTimeTextView);
         highestLevelGame2TextView = findViewById(R.id.highestLevelGame2TextView);
         levelGame3TextView = findViewById(R.id.levelGame3TextView);
 
+        // Get current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
+            // Reference to the user's node in Firebase database
             databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+            // Retrieve user data from Firebase database
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -40,6 +45,7 @@ public class MyRecordsActivity extends AppCompatActivity {
                         Integer highestLevelGame2 = dataSnapshot.child("highest_level_game2").getValue(Integer.class);
                         Integer levelGame3 = dataSnapshot.child("level_game3").getValue(Integer.class);
 
+                        // Update TextViews with user records
                         if (reactionTime != null) {
                             reactionTimeTextView.setText(String.valueOf(reactionTime));
                         }

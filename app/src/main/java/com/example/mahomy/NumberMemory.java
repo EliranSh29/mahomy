@@ -1,3 +1,5 @@
+// NumberMemory.java
+
 package com.example.mahomy;
 
 import android.os.Bundle;
@@ -8,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,12 +34,13 @@ public class NumberMemory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_number_memory);
 
-
+        // Initialize UI elements
         numberTextView = findViewById(R.id.numberTextView);
         userInputEditText = findViewById(R.id.userInputEditText);
         startButton = findViewById(R.id.startButton);
         submitButton = findViewById(R.id.submitButton);
 
+        // Set click listeners for buttons
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,11 +113,32 @@ public class NumberMemory extends AppCompatActivity {
     private void uploadLevelToFirebase(int level) {
         // Get the current user's ID
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // Reference to the user's node
+        // Reference to the user's node in Firebase
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-        // Update the current level for game3
-        userRef.child("level_game3").setValue(level);
+        // Retrieve the user's current level for game 3 from the database
+        userRef.child("level_game3").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Get the current level for game 3 from the database
+                    Integer currentLevel = dataSnapshot.getValue(Integer.class);
+                    // Check if the current level is higher than the level in the database
+                    if (currentLevel == null || level > currentLevel) {
+                        // If so, update the current level for game 3 in the database
+                        userRef.child("level_game3").setValue(level);
+                    }
+                } else {
+                    // If no data exists, simply set the current level as the level for game 3
+                    userRef.child("level_game3").setValue(level);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
     }
 
 }

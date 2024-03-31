@@ -1,3 +1,5 @@
+// NotificationReceiver.java
+
 package com.example.mahomy;
 
 import android.app.Notification;

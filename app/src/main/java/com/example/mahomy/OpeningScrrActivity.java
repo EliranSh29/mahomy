@@ -13,14 +13,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mahomy.gameSeqActivity;
-import com.example.mahomy.MainActivity;
-import com.example.mahomy.NumberMemory;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class OpeningScrrActivity extends AppCompatActivity {
 
+    // Buttons for different game activities
     Button m_buttonGame1;
     Button m_buttonGame2;
     Button m_buttonGame3;
@@ -31,19 +29,24 @@ public class OpeningScrrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening_scrr);
 
-        createNotificationChannel(); // Create the notification channel
-        scheduleNotification(); // Schedule the notification
+        // Create notification channel
+        createNotificationChannel();
 
-        // Write a message to the DB
+        // Schedule notification
+        scheduleNotification();
+
+        // Write a message to the Firebase Realtime Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         myRef.setValue("My name is patrick");
 
+        // Initialize buttons
         m_buttonGame1 = findViewById(R.id.button_game1);
         m_buttonGame2 = findViewById(R.id.button_game2);
         m_buttonGame3 = findViewById(R.id.button_game3);
         m_myRecordsButton = findViewById(R.id.myRecordsButton); // Initialize My Records button
 
+        // Set click listeners for game buttons
         m_buttonGame1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +74,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
             }
         });
 
+        // Set click listener for My Records button
         m_myRecordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +85,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
         });
     }
 
+    // Method to create notification channel
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "My Notification Channel";
@@ -93,9 +98,8 @@ public class OpeningScrrActivity extends AppCompatActivity {
         }
     }
 
+    // Method to schedule notification
     private void scheduleNotification() {
-
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, NotificationReceiver.class);
         notificationIntent.putExtra("notification_id", 1);
