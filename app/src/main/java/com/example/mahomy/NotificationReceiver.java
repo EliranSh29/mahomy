@@ -20,7 +20,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notification = new Notification.Builder(context, "channel_id")
                     .setContentTitle("mahomey")
-                    .setContentText("Did you recycle today?")
+                    .setContentText("Great to see you again!")
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .build();
         }

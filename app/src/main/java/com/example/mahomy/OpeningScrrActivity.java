@@ -1,5 +1,6 @@
 package com.example.mahomy;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,6 +25,9 @@ public class OpeningScrrActivity extends AppCompatActivity {
     Button m_buttonGame3;
     Button m_myRecordsButton; // Added My Records button reference
 
+    Button m_insButton;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,7 @@ public class OpeningScrrActivity extends AppCompatActivity {
         m_buttonGame2 = findViewById(R.id.button_game2);
         m_buttonGame3 = findViewById(R.id.button_game3);
         m_myRecordsButton = findViewById(R.id.myRecordsButton); // Initialize My Records button
+         m_insButton = findViewById(R.id.instructionsButton);
 
         // Set click listeners for game buttons
         m_buttonGame1.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +85,14 @@ public class OpeningScrrActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start MyRecordsActivity
                 Intent intent = new Intent(OpeningScrrActivity.this, MyRecordsActivity.class);
+                startActivity(intent);
+            }
+        });
+        m_insButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the third mini game activity (for future use)
+                Intent intent = new Intent(OpeningScrrActivity.this, instActivity.class);
                 startActivity(intent);
             }
         });
